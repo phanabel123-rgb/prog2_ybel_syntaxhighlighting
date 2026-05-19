@@ -1,0 +1,64 @@
+name: GitHub CI
+
+on:
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Code auschecken
+            uses: actions/checkout@v4
+
+          - name: Java einrichten
+            uses: actions/setup-java@v4
+            with:
+                distribution: 'temurin'
+                java-version: '25'
+
+          - name: Gradlewrapper ausführen
+            run: chmod +x gradlew
+
+          - name: Java Kompilieren
+            run:  ./gradlew compileJava
+
+    test:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Code auschecken
+            uses: actions/checkout@v4
+
+          - name: Java einrichten
+            uses: actions/setup-java@v4
+
+          - name: Java kompilieren
+            run:  ./gradlew compileJava
+
+          - name: Gradlewrapper ausführen
+            run: chmod +x gradlew
+
+          - name: JUnit tests
+            run:  ./gradlew test
+
+    format:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Code auschecken
+            uses: actions/checkout@v4
+
+          - name: Java einrichten
+            uses: actions/setup-java@v4
+
+          - name: Java kompilieren
+            run:  ./gradlew compileJava
+
+          - name: Gradlewrapper ausführen
+            run: chmod +x gradlew
+
+          - name: Code formatieren
+            run:  ./gradlew spotlessCheck
+
+
