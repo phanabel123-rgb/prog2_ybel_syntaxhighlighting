@@ -19,10 +19,25 @@ public final class MiniJavaTokens {
   public static List<Token> defaultTokens() {
     return List.of(
         // Example: string literals (students should define further tokens below)
-        Token.of(Pattern.compile("\"([^\"\\\\]|\\\\.)*\""), MiniJavaColours.STRING_LITERAL_COLOUR)
+        Token.of(Pattern.compile("\"([^\"\\\\]|\\\\.)*\""), MiniJavaColours.STRING_LITERAL_COLOUR),
 
         // TODO: Define additional tokens for MiniJava, e.g. character literals, keywords,
         // annotations, comments, identifiers, numbers, operators, etc.
+
+        Token.of(Pattern.compile("'([^\"\\\\]|\\\\.)*'"), MiniJavaColours.CHAR_LITERAL_COLOUR),
+
+        Token.of(Pattern.compile("\\b(package|public|final|class|private" +
+            "|import|extends|String|return|void|null|new|char)\\b"), MiniJavaColours.KEYWORD_COLOUR),
+
+        Token.of(Pattern.compile("@[\\w-]+"), MiniJavaColours.ANNOTATION_COLOUR),
+
+        Token.of(Pattern.compile("//.*"), MiniJavaColours.LINE_COMMENT_COLOUR),
+
+        Token.of(Pattern.compile("/\\*(?s).*?\\*/"), MiniJavaColours.BLOCK_COMMENT_COLOUR),
+
+        Token.of(Pattern.compile("/\\*\\*(?s).*?\\*/"), MiniJavaColours.JAVADOC_COMMENT_COLOUR)
+
         );
+
   }
 }
