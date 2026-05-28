@@ -3,7 +3,6 @@ package highlighting.regex;
 import highlighting.core.HighlightRegion;
 import highlighting.core.SyntaxHighlighter;
 import highlighting.presets.MiniJavaTokens;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +24,8 @@ public class RegexHighlighter extends SyntaxHighlighter {
     List<Token> tokens = MiniJavaTokens.defaultTokens();
 
     for (Token token : tokens) {
-        List<HighlightRegion> matches = token.test(text);
-        allMatches.addAll(matches);
+      List<HighlightRegion> matches = token.test(text);
+      allMatches.addAll(matches);
     }
     return allMatches;
   }
@@ -40,18 +39,17 @@ public class RegexHighlighter extends SyntaxHighlighter {
     List<HighlightRegion> clearRegion = new ArrayList<>();
 
     for (HighlightRegion current : regions) {
-        boolean Konflikt = false;
+      boolean Konflikt = false;
 
-        for (HighlightRegion accepted : clearRegion) {
-            if (current.end() > accepted.start() && current.start() < accepted.end()) {
-                Konflikt = true;
-                break;
-            }
+      for (HighlightRegion accepted : clearRegion) {
+        if (current.end() > accepted.start() && current.start() < accepted.end()) {
+          Konflikt = true;
+          break;
         }
-        if (!Konflikt) {
-            clearRegion.add(current);
-        }
-
+      }
+      if (!Konflikt) {
+        clearRegion.add(current);
+      }
     }
     return clearRegion;
   }
