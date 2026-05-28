@@ -64,7 +64,7 @@ jobs:
           - name: Gradlewrapper ausführen
             run: chmod +x gradlew
 
-          - name: Code formatieren
+          - name:  Code formatieren
             run:  ./gradlew spotlessCheck
 
 
