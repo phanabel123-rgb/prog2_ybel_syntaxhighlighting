@@ -27,7 +27,7 @@ public final class MiniJavaTokens {
         // TODO: Define additional tokens for MiniJava, e.g. character literals, keywords,
         // annotations, comments, identifiers, numbers, operators, etc.
 
-        Token.of(Pattern.compile("'([^\"\\\\]|\\\\.)*'"), MiniJavaColours.CHAR_LITERAL_COLOUR),
+        Token.of(Pattern.compile("'([^\"\\\\]|\\\\.)*?'"), MiniJavaColours.CHAR_LITERAL_COLOUR),
         Token.of(Pattern.compile("@[\\w-]+"), MiniJavaColours.ANNOTATION_COLOUR),
         Token.of(
             Pattern.compile(
