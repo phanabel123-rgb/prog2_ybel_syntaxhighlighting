@@ -48,6 +48,28 @@ public final class PrettyPrinterVisitor extends MiniJavaBaseVisitor<Void> {
     // - import declarations (one per line),
     // - type declarations (one after another),
     // with sensible blank lines between these parts.
+    if (ctx.packageDecl() != null) {
+      visit(ctx.packageDecl());
+      nl();
+    }
+
+
+    if (ctx.importDecl() != null && !ctx.importDecl().isEmpty()) {
+      for (MiniJavaParser.ImportDeclContext imp : ctx.importDecl()) {
+        visit(imp);
+        nl();
+      }
+      nl();
+    }
+
+
+    if (ctx.typeDecl() != null) {
+      for (MiniJavaParser.TypeDeclContext type : ctx.typeDecl()) {
+        visit(type);
+        nl();
+      }
+    }
+
     return null;
   }
 
@@ -58,6 +80,21 @@ public final class PrettyPrinterVisitor extends MiniJavaBaseVisitor<Void> {
     // - opening and closing brace,
     // - one member declaration per line,
     // - members indented relative to the class.
+    write("{");
+    nl();
+    currentIndent++;
+
+    if (ctx.classBodyDeclaration() != null) {
+      for (MiniJavaParser.ClassBodyDeclarationContext decl : ctx.classBodyDeclaration()) {
+        visit(decl);
+        nl();
+      }
+    }
+
+    currentIndent--;
+
+    write("}");
+
     return null;
   }
 
@@ -68,6 +105,18 @@ public final class PrettyPrinterVisitor extends MiniJavaBaseVisitor<Void> {
     // - opening and closing brace,
     // - one blockStatement per line,
     // - nested blocks indented further.
+    write("{");
+    nl();
+    currentIndent++;
+    if (ctx.blockStatement() != null) {
+      for (MiniJavaParser.BlockStatementContext cntx : ctx.blockStatement()) {
+        visit(cntx);
+        nl();
+      }
+    }
+    currentIndent--;
+    write("}");
+
     return null;
   }
 
@@ -76,6 +125,17 @@ public final class PrettyPrinterVisitor extends MiniJavaBaseVisitor<Void> {
     // TODO:
     // Ensure that each statement (if/while/return/block/...) ends up
     // on exactly one line, with proper indentation for nested statements.
+    // Drucke das Statement (z.B. x = 5;)
+
+    // Wenn es ein normales Statement ist (und kein ganzer Block),
+    // machen wir am Ende der Zeile einen Zeilenumbruch.
+    visitChildren(ctx);
+
+
+    if (!atLineStart) {
+      nl();
+    }
+
     return null;
   }
 
