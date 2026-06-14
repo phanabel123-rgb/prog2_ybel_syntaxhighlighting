@@ -88,7 +88,7 @@ IMPLEMENTS  : 'implements';
 
 // Literals
 STRING_LITERAL : '"' ( ESC_SEQ | ~["\\] )* '"' ;
-CHAR_LITERAL   : '\'' ( ESC_SEQ | ~['\\] ) '\'' ;
+CHAR_LITERAL   : '\'' ( ESC_SEQ | ~['\\]* ) '\'' ;
 fragment ESC_SEQ : '\\' [btnfr"'\\] ;
 IDENTIFIER     : [a-zA-Z_] [a-zA-Z_0-9]* ;
 

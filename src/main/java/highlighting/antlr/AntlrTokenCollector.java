@@ -50,17 +50,28 @@ public class AntlrTokenCollector extends SyntaxHighlighter {
       }
 
       if (t.getType() == MiniJavaLexer.AT) {
-        if (i + 1 < tokenList.size()
-            && tokenList.get(i + 1).getType() == MiniJavaLexer.IDENTIFIER) {
-          regions.add(
-              new HighlightRegion(
-                  t.getStartIndex(),
-                  tokenList.get(i + 1).getStopIndex() + 1,
-                  MiniJavaColours.ANNOTATION_COLOUR));
-          i++;
-        }
+          int j = i + 1;
+          Token lastAnnotationToken = t;
 
-        continue;
+
+          while (j < tokenList.size()) {
+              Token next = tokenList.get(j);
+
+
+              if (next.getType() == MiniJavaLexer.IDENTIFIER || next.getType() == MiniJavaLexer.MINUS) {
+                  lastAnnotationToken = next;
+                  j++;
+              } else {
+                  break;
+              }
+          }
+
+          if (lastAnnotationToken != t) {
+              regions.add(new HighlightRegion(t.getStartIndex(), lastAnnotationToken.getStopIndex() + 1, MiniJavaColours.ANNOTATION_COLOUR));
+
+              i = j - 1;
+          }
+          continue;
       }
 
 
